@@ -17,23 +17,14 @@ const JWT_SECRET   = process.env.JWT_SECRET  || 'aura_luxury_secret_123';
 // ── Express + HTTP + Socket.io setup ─────────────────────────────────────────
 const app = express();
 const httpServer = createServer(app);
-const allowedOrigins = [
-  'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002',
-  'http://localhost:3020', 'http://localhost:3025', 'http://localhost:5173', 'http://localhost:5174',
-  'http://127.0.0.1:3000', 'http://127.0.0.1:3001', 'http://127.0.0.1:3020',
-  'http://127.0.0.1:3025', 'http://127.0.0.1:5173', 'http://127.0.0.1:5174'
-];
-
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
-      callback(null, true);
-    } else {
-      callback(null, true); // Permissive in dev mode
-    }
+    // Allow all requests from localhost, Vercel apps, and mobile/desktop clients
+    callback(null, true);
   },
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
 };
 
 const io = new Server(httpServer, { cors: corsOptions });
@@ -62,6 +53,18 @@ import reservationRoutes from './routes/reservations.js';
 import paymentRoutes     from './routes/payment.js';
 import tableRoutes       from './routes/tables.js';
 import analyticsRoutes   from './routes/analytics.js';
+
+// Root status endpoint for Render
+app.get('/', (req, res) => {
+  res.json({
+    status: 'online',
+    service: 'Aura Reserve Backend API',
+    version: '1.0.0',
+    database: mongoose.connection.readyState === 1 ? 'connected' : 'connecting',
+    health: '/api/health',
+    menu: '/api/menu',
+  });
+});
 
 app.get('/api/health', (req, res) => {
   res.json({

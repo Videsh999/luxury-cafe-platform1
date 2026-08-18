@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Search, Edit2, Trash2, CheckCircle, AlertCircle, X, Image as ImageIcon } from 'lucide-react';
+import { API_BASE } from '../../config/api';
 
 const Toast = ({ message, type, onClose }) => {
   useEffect(() => {
@@ -43,7 +44,6 @@ const MenuManager = () => {
   });
 
   const categories = ['All', 'Hot Coffee', 'Cold Brews', 'Matcha', 'Desserts', 'Bakery', 'Pasta', 'Burgers', 'Tea', 'Fresh Juice', 'Chef Specials'];
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
   const fetchMenu = async () => {
     try {

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Clock, CheckCircle2, ChefHat, Coffee, MapPin, Star, ShieldCheck } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { io } from 'socket.io-client';
+import { API_BASE } from '../config/api';
 
 const Tracking = () => {
   const [searchParams] = useSearchParams();
@@ -19,7 +20,7 @@ const Tracking = () => {
 
   useEffect(() => {
     // Connect to Socket.io
-    const socket = io('http://localhost:5001');
+    const socket = io(API_BASE);
 
     socket.on('connect', () => {
       console.log('Connected to Tracking Socket');
@@ -34,7 +35,7 @@ const Tracking = () => {
 
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`http://localhost:5001/api/orders/${orderId}`);
+        const res = await fetch(`${API_BASE}/api/orders/${orderId}`);
         if (res.ok) {
           const data = await res.json();
           setOrder(data);

@@ -18,6 +18,7 @@ import {
 import { AuthContext } from '../context/AuthContext';
 import { AudioContext } from '../context/AudioContext';
 import { io } from 'socket.io-client';
+import { API_BASE } from '../config/api';
 
 const Reservations = () => {
   const { user } = useContext(AuthContext);
@@ -126,7 +127,7 @@ const Reservations = () => {
   // ── Fetching Data ───────────────────────────────────────────────────────────
   useEffect(() => {
     fetchTables();
-    const socket = io('http://localhost:5001');
+    const socket = io(API_BASE);
     socket.on('reservation_update', () => {
       if (selectedDate && selectedTime) fetchBookedTables(selectedDate, selectedTime);
     });
@@ -136,7 +137,7 @@ const Reservations = () => {
 
   const fetchTables = async () => {
     try {
-      const res = await fetch('http://localhost:5001/api/tables');
+      const res = await fetch(`${API_BASE}/api/tables`);
       const data = await res.json();
       setTables(data);
     } catch (err) {
@@ -146,7 +147,7 @@ const Reservations = () => {
 
   const fetchBookedTables = async (date, time) => {
     try {
-      const res = await fetch(`http://localhost:5001/api/reservations/booked-tables?date=${date}&timeSlot=${time}&duration=${duration}`);
+      const res = await fetch(`${API_BASE}/api/reservations/booked-tables?date=${date}&timeSlot=${time}&duration=${duration}`);
       const data = await res.json();
       setBookedTableIds(data || []);
     } catch (err) {
@@ -195,7 +196,7 @@ const Reservations = () => {
     setError('');
 
     try {
-      const res = await fetch('http://localhost:5001/api/reservations', {
+      const res = await fetch(`${API_BASE}/api/reservations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -20,6 +20,7 @@ import {
   Activity
 } from 'lucide-react';
 import { io } from 'socket.io-client';
+import { API_BASE } from '../../config/api';
 
 const ReservationsManager = () => {
   const [reservations, setReservations] = useState([]);
@@ -28,8 +29,6 @@ const ReservationsManager = () => {
   const [viewMode, setViewMode] = useState('list');
   const [filter, setFilter] = useState('All');
   const [confirmDeleteId, setConfirmDeleteId] = useState(null);
-
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
   useEffect(() => {
     fetchData();

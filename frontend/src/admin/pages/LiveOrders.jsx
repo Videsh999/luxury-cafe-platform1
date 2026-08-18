@@ -19,14 +19,13 @@ import {
   Activity
 } from 'lucide-react';
 import { io } from 'socket.io-client';
+import { API_BASE } from '../../config/api';
 
 const LiveOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('Active'); // Active, Kitchen, COD, Completed
   const [searchQuery, setSearchQuery] = useState('');
-
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
   useEffect(() => {
     fetchOrders();

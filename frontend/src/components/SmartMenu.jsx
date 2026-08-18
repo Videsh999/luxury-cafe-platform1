@@ -4,6 +4,7 @@ import { Sparkles, Search, UtensilsCrossed, Clock, Star, Flame, Leaf, Plus, Minu
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { AudioContext } from '../context/AudioContext';
+import { API_BASE } from '../config/api';
 
 // --- Cinematic Image ---
 const CinematicImage = ({ src, alt, className }) => {
@@ -423,7 +424,7 @@ const SmartMenu = () => {
     }
     setFetchError(false);
     try {
-      const res = await fetch('http://localhost:5001/api/menu');
+      const res = await fetch(`${API_BASE}/api/menu`);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       if (data.length === 0 && retryCount < 3) {

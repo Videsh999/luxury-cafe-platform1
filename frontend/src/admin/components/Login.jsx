@@ -18,16 +18,18 @@ const Login = () => {
     setIsLoading(true);
     setError('');
     
-    // Simulate delay for cinematic feel
-    setTimeout(async () => {
+    try {
       const res = await login(email, password);
       if (res.success) {
         navigate('/admin');
       } else {
-        setError(res.message);
+        setError(res.message || 'Invalid admin credentials');
       }
+    } catch (err) {
+      setError('Unable to reach server. Please check your backend connection.');
+    } finally {
       setIsLoading(false);
-    }, 1500);
+    }
   };
 
   return (

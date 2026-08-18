@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { AuthContext } from '../context/AuthContext';
 import { AudioContext } from '../context/AudioContext';
+import { API_BASE } from '../config/api';
 
 const PAYMENT_METHODS = [
   { id: 'cod',  name: 'Cash on Delivery', icon: <Banknote size={20}/>,   desc: 'Pay at table or doorstep',   color: 'text-green-400' },
@@ -50,7 +51,7 @@ export default function Checkout() {
   useEffect(() => {
     if (orderType !== 'Dine In') { setSelectedTable(null); return; }
     setLoadingTables(true);
-    fetch('http://localhost:5001/api/tables')
+    fetch(`${API_BASE}/api/tables`)
       .then(r => r.json())
       .then(data => {
         console.log("Fetched tables:", data);
@@ -84,8 +85,8 @@ export default function Checkout() {
     try { playSFX('click'); } catch (_) {}
 
     const endpoint = paymentMethod === 'cod'
-      ? 'http://localhost:5001/api/orders/cod'
-      : 'http://localhost:5001/api/orders';
+      ? `${API_BASE}/api/orders/cod`
+      : `${API_BASE}/api/orders`;
 
     const payload = {
       items:           cart.map(i => ({ menuItem: i._id, quantity: i.quantity, price: i.price, prepTime: i.prepTime })),

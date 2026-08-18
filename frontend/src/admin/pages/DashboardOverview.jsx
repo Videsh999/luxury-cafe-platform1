@@ -11,6 +11,7 @@ import {
 import RollingNumber from '../components/RollingNumber';
 import axios from 'axios';
 import { io } from 'socket.io-client';
+import { API_BASE } from '../../config/api';
 
 const DashboardOverview = () => {
   const [timeRange, setTimeRange] = useState('today');
@@ -31,8 +32,6 @@ const DashboardOverview = () => {
   });
 
   const [liveFeed, setLiveFeed] = useState([]);
-
-  const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
   const fetchDashboardData = async () => {
     setIsRefreshing(true);

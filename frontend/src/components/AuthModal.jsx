@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShieldCheck, Lock, User, Mail, ArrowRight } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
 import { AudioContext } from '../context/AudioContext';
+import { API_BASE } from '../config/api';
 
 const AuthModal = ({ isOpen, onClose }) => {
   const { login } = useContext(AuthContext);
@@ -29,7 +30,7 @@ const AuthModal = ({ isOpen, onClose }) => {
     } else {
       // Mock signup
       try {
-        const res = await fetch('http://localhost:5001/api/auth/register', {
+        const res = await fetch(`${API_BASE}/api/auth/register`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ name, email, password })

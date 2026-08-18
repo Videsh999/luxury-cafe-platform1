@@ -4,6 +4,7 @@ import { X, Send, Sparkles, Plus, CheckCircle2, ChevronRight, Brain } from 'luci
 import ReactMarkdown from 'react-markdown';
 import { CartContext } from '../context/CartContext';
 import { AudioContext } from '../context/AudioContext';
+import { API_BASE } from '../config/api';
 
 // ── Persistent session ID ────────────────────────────────────────────────────
 function getSessionId() {
@@ -155,7 +156,7 @@ const AIChatbot = () => {
     try {
       const cleanHistory = messages.slice(-14).map(m => ({ role: m.role, content: m.content }));
 
-      const res = await fetch('http://localhost:5001/api/chat', {
+      const res = await fetch(`${API_BASE}/api/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: text, history: cleanHistory, sessionId: SESSION_ID }),

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Save, Plus, Trash2, Send, Brain, MessageSquare, Sparkles, RefreshCw } from 'lucide-react';
+import { API_BASE } from '../../config/api';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 const API = `${API_BASE}/api/chat`;
 
 const Section = ({ title, children }) => (

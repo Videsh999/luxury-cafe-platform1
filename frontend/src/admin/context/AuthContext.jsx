@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import { API_BASE } from '../../config/api';
 
 export const AuthContext = createContext();
 
@@ -29,7 +30,6 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     try {
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5001';
       const res = await fetch(
         `${API_BASE}/api/auth/login`,
         {
